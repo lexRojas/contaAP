@@ -1,3 +1,3 @@
 git pull origin 
 
-java -jar ContaAPP.jar
+java -jar ContAPP.jar
