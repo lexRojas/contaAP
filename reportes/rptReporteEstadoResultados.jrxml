@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptReporteDiario" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c54d56de-cfe1-47e4-aa22-3847124741f4">
+	<property name="ireport.zoom" value="1.2418426461183154"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ruta" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="empresa" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cedulajuridica" class="java.lang.String">
+		<defaultValueExpression><![CDATA[3-101-99999]]></defaultValueExpression>
+	</parameter>
+	<parameter name="periodo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_mes_cerrado" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_mes_inicio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_mes_final" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from conta.get_estado_resultados_by_periodo_crosstab($P{p_mes_cerrado},$P{p_mes_inicio},$P{p_mes_final});
+]]>
+	</queryString>
+	<field name="row_id" class="java.lang.Integer"/>
+	<field name="tag" class="java.lang.String"/>
+	<field name="gastos_operacion_mes" class="java.math.BigDecimal"/>
+	<field name="ingresos_servicios_mes" class="java.math.BigDecimal"/>
+	<field name="utilidad_operacion_calc_mes" class="java.math.BigDecimal"/>
+	<field name="otros_ingresos_mes" class="java.math.BigDecimal"/>
+	<field name="sub_total_calc_mes" class="java.math.BigDecimal"/>
+	<field name="gastos_financieros_mes" class="java.math.BigDecimal"/>
+	<field name="utilidad_antes_impuestos_calc_mes" class="java.math.BigDecimal"/>
+	<field name="impuesto_renta_calc_mes" class="java.math.BigDecimal"/>
+	<field name="utilidad_despues_impuestos_calc_mes" class="java.math.BigDecimal"/>
+	<field name="gastos_no_deducibles_mes" class="java.math.BigDecimal"/>
+	<field name="resultado_periodo_calc_mes" class="java.math.BigDecimal"/>
+	<field name="gastos_operacion_acum" class="java.math.BigDecimal"/>
+	<field name="ingresos_servicios_acum" class="java.math.BigDecimal"/>
+	<field name="utilidad_operacion_calc_acum" class="java.math.BigDecimal"/>
+	<field name="otros_ingresos_acum" class="java.math.BigDecimal"/>
+	<field name="sub_total_calc_acum" class="java.math.BigDecimal"/>
+	<field name="gastos_financieros_acum" class="java.math.BigDecimal"/>
+	<field name="utilidad_antes_impuestos_calc_acum" class="java.math.BigDecimal"/>
+	<field name="impuesto_renta_calc_acum" class="java.math.BigDecimal"/>
+	<field name="utilidad_despues_impuestos_calc_acum" class="java.math.BigDecimal"/>
+	<field name="gastos_no_deducibles_acum" class="java.math.BigDecimal"/>
+	<field name="resultado_periodo_calc_acum" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="153" splitType="Stretch">
+			<rectangle>
+				<reportElement x="468" y="127" width="104" height="25" backcolor="#FFFF99" uuid="7316175a-c5c3-4c2b-ba7d-4220d4092d57"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="371" y="127" width="97" height="25" backcolor="#FFFF99" uuid="b834de02-2d9b-4975-b1f2-2a7f758b4b10"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="468" y="128" width="104" height="25" uuid="49b11911-bffc-457a-ac34-118fa4233586"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ACUMULADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="128" width="97" height="25" uuid="4df57b85-0285-423f-98e8-3da871999106"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[MES ACTUAL]]></text>
+			</staticText>
+			<rectangle radius="2">
+				<reportElement x="494" y="1" width="78" height="39" uuid="55b1e824-fab2-4e71-8964-f65a206570d3"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="3" y="0" width="196" height="42" uuid="f3927e34-034d-435e-9800-21ae7aefbb69"/>
+				<imageExpression><![CDATA[$P{ruta}+"head.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="494" y="31" width="45" height="8" uuid="1431e78a-8b68-4163-a24e-6cb2c9a1dd4d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="539" y="31" width="29" height="8" uuid="18f728a9-361d-44ee-a431-e69f3744fce1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="22" width="176" height="20" uuid="3fa186f4-139e-429b-a204-40b7a998e068"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="42" width="176" height="20" uuid="57ee73f7-a00f-4f18-8f0b-85816a0fd73c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cedulajuridica}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="73" width="565" height="22" uuid="d7c79072-9988-4e83-bb6d-dcc5c78fae5c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO DE RESULTADOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="95" width="97" height="20" uuid="ce45fc05-335a-4ad7-acd7-8977f499b6ea"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo Cerrado:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="3" y="127" width="368" height="25" backcolor="#FFFF99" uuid="5883a2e6-340b-4956-86e3-3aec1482f9d0"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="127" width="368" height="26" uuid="9ca58b21-96c8-42c6-9a04-83f137c51530"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DETALLE DE RUBRO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="496" y="11" width="76" height="9" uuid="0c021295-c1c6-4d48-9ed2-1ad11ff6cb9f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Usuario: Sistema]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="496" y="1" width="23" height="9" uuid="1b0167ec-fa68-49f4-aeb2-bbe7ea2b9025"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Fecha  :]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yy">
+				<reportElement x="519" y="1" width="51" height="8" uuid="6ad8099a-5bea-4cd3-9267-690a77fb6a81"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="494" y="10" width="78" height="1" uuid="e50dcc88-5be1-4cfe-bad7-16b33281022c"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="494" y="20" width="78" height="1" uuid="3e831c9b-e1e9-4bda-b8f5-08ba1bf12aeb"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="494" y="30" width="78" height="1" uuid="b1845015-3e13-442a-aded-03cbcffc1dc6"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="496" y="21" width="23" height="9" uuid="00a5eb2a-47e4-4795-9344-257e0d815c95"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Hora    :]]></text>
+			</staticText>
+			<textField pattern="h.mm a">
+				<reportElement x="519" y="20" width="51" height="10" uuid="2ac375c2-7aac-4ad2-a089-5e2dfebf078b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="304" y="95" width="56" height="20" uuid="7acd711c-026a-4e39-ba22-e58dcc456572"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{periodo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="515" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-3" y="400" width="573" height="20" forecolor="#FFFFFF" backcolor="#99FFFF" uuid="2d631f8e-4203-4dad-92f9-30d4ffa714d8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-1" y="324" width="573" height="20" forecolor="#FFFFFF" backcolor="#99FFFF" uuid="0282943e-8216-4751-a4b0-4891393a21a2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-1" y="254" width="573" height="20" forecolor="#FFFFFF" backcolor="#99FFFF" uuid="b80f3ab4-a485-4c31-86a8-f1972cd02bac"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="184" width="573" height="20" forecolor="#FFFFFF" backcolor="#99FFFF" uuid="f1550658-9837-4471-b885-fd7573ced1e9"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="15" width="100" height="20" forecolor="#000099" uuid="abe66164-d456-40fd-8505-60966b3786f4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INGRESOS]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="35" width="569" height="1" uuid="2a916db2-0f6a-4708-9be3-e30e7c3b8518"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#000099"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="375" y="39" width="93" height="20" uuid="f32dbce8-e2b8-4495-aea4-af1f06ee7255"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ingresos_servicios_mes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="473" y="39" width="99" height="20" uuid="8dc2c904-0fc9-4555-bbbc-0970d510e720"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ingresos_servicios_acum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="39" width="149" height="20" uuid="efe73b26-ef9c-4668-b353-df526d7cc61a"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[INGRESOS POR SERVICIOS]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="67" width="569" height="1" uuid="8a42c428-fa3e-4b4f-85c1-cea74bf3cdc9"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#000099"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="68" width="159" height="20" forecolor="#000099" uuid="37c8952f-c225-41e0-a555-51e969d28e3a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DE INGRESOS]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="473" y="68" width="99" height="20" forecolor="#000099" uuid="bdb96cb0-f3b5-4cdd-9dc9-ed412189fe33"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ingresos_servicios_acum}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="375" y="68" width="93" height="20" forecolor="#000099" uuid="1f75ba82-f070-4669-8b00-166dbeb8d4db"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ingresos_servicios_mes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="98" width="159" height="20" forecolor="#000099" uuid="b4c6a372-fdbd-4489-96c0-ea879912ec8a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GASTOS DE OPERACION]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="149" width="569" height="1" uuid="c20b81cd-e53a-4544-bea8-299da14d0e4a"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#000099"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="3" y="117" width="569" height="1" uuid="53aec78b-870d-47cb-a17c-b5a64373741b"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#000099"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="3" y="150" width="234" height="20" forecolor="#000099" uuid="d7eadb7d-1288-4b3d-b918-a14ab54806cb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DE GASTOS DE OPERACION]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="375" y="120" width="92" height="20" uuid="3df7b4b9-a983-4f12-b88b-1e3bffb46e32"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gastos_operacion_mes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="120" width="149" height="20" uuid="a475b26b-d5a8-4c97-b58e-2cf74aaff88b"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[GASTOS DE OPERACION]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="473" y="120" width="99" height="20" uuid="f1b155e1-663d-499a-9152-114fdb852795"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gastos_operacion_acum}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="474" y="150" width="99" height="20" forecolor="#000099" uuid="1dbdb3c0-7541-41ac-bab5-61ca4d12e842"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gastos_operacion_acum}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="376" y="150" width="92" height="20" forecolor="#000099" uuid="e36aaddf-0b81-438d-aa4d-f80669814ed4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gastos_operacion_mes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="184" width="234" height="20" forecolor="#333333" uuid="03417b73-22cf-4e0e-bc8c-d761eacdbc03"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UTILIDAD DE OPERACION ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="376" y="184" width="91" height="20" uuid="5c82a3c9-13b8-4b9d-8f0f-135ecd797318"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{utilidad_operacion_calc_mes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="474" y="184" width="98" height="20" uuid="018a7865-3125-4719-b686-fc63cd9f1d73"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{utilidad_operacion_calc_acum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="218" width="149" height="20" uuid="261843a3-e7c5-44c5-9660-f0bfd758b0bf"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[OTROS INGRESOS]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="374" y="218" width="93" height="20" uuid="cbcfba5e-1924-4786-a2da-43c47199838a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{otros_ingresos_mes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="474" y="218" width="98" height="20" uuid="dd4be681-f2af-47fd-9e24-38c20c28957c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{otros_ingresos_acum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="254" width="234" height="20" forecolor="#333333" uuid="d0b8c900-5048-4838-a7e3-147354caa9e1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUB TOTAL]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="376" y="254" width="91" height="20" uuid="4c9d9c1b-7179-4602-8071-96ba7bc1eb98"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sub_total_calc_mes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="474" y="254" width="98" height="20" uuid="160f5816-b08c-4173-81d3-09dce1239257"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{sub_total_calc_acum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="290" width="149" height="20" uuid="37ad6162-655f-41e6-81ec-6dcfb32f8e29"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[GASTOS FINANCIEROS]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="376" y="290" width="91" height="20" uuid="9bb42013-0275-4320-997c-b5d1b4d54488"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gastos_financieros_mes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="475" y="290" width="98" height="20" uuid="d46ed0f2-be05-4616-8ee7-6a8d590ea8e0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gastos_financieros_acum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="324" width="234" height="20" forecolor="#333333" uuid="5078cb40-8f03-4e45-86b5-79e8d23d2a4b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UTILIDAD ANTES DE IMPUESTO]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="375" y="324" width="92" height="20" uuid="32bf6512-49dd-4504-be75-d07e7c3ae12d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{utilidad_antes_impuestos_calc_mes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="475" y="324" width="97" height="20" uuid="da50254c-103d-43a8-aed7-2d3737f6549e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{utilidad_antes_impuestos_calc_acum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="361" width="241" height="20" uuid="944873b8-f85f-480c-a895-58d1fede3e4c"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[IMPUESTO DE  RENTA TRADICIONAL (3%) ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="376" y="361" width="91" height="20" uuid="e95c1595-7768-4a18-8ccf-8493775df010"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{impuesto_renta_calc_mes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="475" y="361" width="97" height="20" uuid="ee73d3a2-4e0c-4512-9331-ced0ad2df0a4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{impuesto_renta_calc_acum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="400" width="234" height="20" forecolor="#333333" uuid="8089ac41-8364-415c-ba36-3a9e585ecae1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UTILIDAD DESPUES DE IMPUESTO]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="376" y="400" width="91" height="20" uuid="c7b05f37-c6d0-42e4-8f6a-f18df718cf13"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{utilidad_despues_impuestos_calc_mes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="475" y="400" width="96" height="20" uuid="837f9128-0da5-4e91-a0e1-7ad04e4411ee"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{utilidad_despues_impuestos_calc_acum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="431" width="241" height="20" uuid="91ab706e-217d-4497-a3a4-180c3e1c8959"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[GASTOS NO DEDUCIBLES]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="376" y="431" width="91" height="20" uuid="86163038-193f-4d37-9f01-71b5f8acc418"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gastos_no_deducibles_mes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="473" y="431" width="100" height="20" uuid="d7686230-6853-4d71-a8a4-ca1caa8bbe8f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{gastos_no_deducibles_acum}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="377" y="486" width="91" height="20" forecolor="#003399" uuid="6d77ff1a-beab-4c29-b3d3-2dcc3a0228d3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resultado_periodo_calc_acum}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="475" y="486" width="97" height="20" forecolor="#003399" uuid="bbdc0779-2ea6-4b1a-841a-6ffd4ddcb879"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resultado_periodo_calc_mes}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="485" width="569" height="1" uuid="611c2d21-da8d-4aba-8483-8a06a7933a90"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#000099"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="486" width="234" height="20" forecolor="#000099" uuid="cd823a48-755f-4920-8c02-85d54e376084"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESULTADOS DEL PERIODO]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>
