@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptReporteDiario" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c54d56de-cfe1-47e4-aa22-3847124741f4">
+	<property name="ireport.zoom" value="2.6620000000000195"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="122"/>
+	<parameter name="ruta" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="empresa" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cedulajuridica" class="java.lang.String">
+		<defaultValueExpression><![CDATA[3-101-99999]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_mes_inicio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_mes_final" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+       nivel,
+       nivel_desc,
+       grupo,
+       grupo_desc,
+       orden,
+       tag,
+       sum(monto) as monto
+FROM conta.estado_balance_situacion
+WHERE intervalo between $P{p_mes_inicio} and $P{p_mes_final}
+GROUP BY
+       nivel,
+       nivel_desc,
+       grupo,
+       grupo_desc,
+       orden,
+       tag
+ORDER BY orden]]>
+	</queryString>
+	<field name="nivel" class="java.lang.Integer"/>
+	<field name="nivel_desc" class="java.lang.String"/>
+	<field name="grupo" class="java.lang.Integer"/>
+	<field name="grupo_desc" class="java.lang.String"/>
+	<field name="orden" class="java.lang.Integer"/>
+	<field name="tag" class="java.lang.String"/>
+	<field name="monto" class="java.lang.Double"/>
+	<variable name="monto_1" class="java.lang.Double" resetType="Group" resetGroup="grupo" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
+	</variable>
+	<variable name="monto_2" class="java.lang.Double" resetType="Group" resetGroup="nivel" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
+	</variable>
+	<variable name="monto_3" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
+	</variable>
+	<group name="nivel">
+		<groupExpression><![CDATA[$F{nivel}]]></groupExpression>
+		<groupHeader>
+			<band height="24">
+				<textField>
+					<reportElement x="3" y="5" width="217" height="18" uuid="b75571bc-e1af-4b4f-a1e9-c986dade317a"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nivel_desc}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="3" y="23" width="569" height="1" uuid="77b54440-ca92-4e60-a3a7-885f8fd0af11"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="32">
+				<line>
+					<reportElement x="451" y="31" width="108" height="1" uuid="3f68b3d7-91ed-4ede-abe4-988b1c57ec82"/>
+					<graphicElement>
+						<pen lineStyle="Double"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="451" y="13" width="108" height="1" uuid="5a82320c-baca-4417-811c-92029e2cf33a"/>
+				</line>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="451" y="14" width="100" height="17" uuid="baf92e5a-e518-4f13-8f8f-584cfca4d287"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{monto_2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="grupo">
+		<groupExpression><![CDATA[$F{grupo}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField>
+					<reportElement x="9" y="1" width="311" height="16" uuid="3b9df953-1244-4f0a-a80f-e8e1953d133a"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{grupo_desc}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<line>
+					<reportElement x="320" y="0" width="108" height="1" uuid="1091fb80-3839-4251-ab2f-f4487b101813"/>
+				</line>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="451" y="1" width="100" height="20" uuid="72354de3-4790-4f67-8a20-ec3bafa47160"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{monto_1}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="451" y="21" width="108" height="1" uuid="f5d573ad-781a-4856-ad51-8be8a9d89128"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="114" splitType="Stretch">
+			<rectangle radius="2">
+				<reportElement x="494" y="1" width="78" height="39" uuid="55b1e824-fab2-4e71-8964-f65a206570d3"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="3" y="0" width="196" height="42" uuid="f3927e34-034d-435e-9800-21ae7aefbb69"/>
+				<imageExpression><![CDATA[$P{ruta}+"head.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="494" y="31" width="45" height="8" uuid="1431e78a-8b68-4163-a24e-6cb2c9a1dd4d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="539" y="31" width="29" height="8" uuid="18f728a9-361d-44ee-a431-e69f3744fce1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="22" width="176" height="20" uuid="3fa186f4-139e-429b-a204-40b7a998e068"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="42" width="176" height="20" uuid="57ee73f7-a00f-4f18-8f0b-85816a0fd73c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cedulajuridica}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="73" width="565" height="22" uuid="d7c79072-9988-4e83-bb6d-dcc5c78fae5c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[BALANCE DE SITUACION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="496" y="11" width="76" height="9" uuid="0c021295-c1c6-4d48-9ed2-1ad11ff6cb9f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Usuario: Sistema]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="496" y="1" width="23" height="9" uuid="1b0167ec-fa68-49f4-aeb2-bbe7ea2b9025"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Fecha  :]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yy">
+				<reportElement x="519" y="1" width="51" height="8" uuid="6ad8099a-5bea-4cd3-9267-690a77fb6a81"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="494" y="10" width="78" height="1" uuid="e50dcc88-5be1-4cfe-bad7-16b33281022c"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="494" y="20" width="78" height="1" uuid="3e831c9b-e1e9-4bda-b8f5-08ba1bf12aeb"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="494" y="30" width="78" height="1" uuid="b1845015-3e13-442a-aded-03cbcffc1dc6"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="496" y="21" width="23" height="9" uuid="00a5eb2a-47e4-4795-9344-257e0d815c95"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Hora    :]]></text>
+			</staticText>
+			<textField pattern="h.mm a">
+				<reportElement x="519" y="20" width="51" height="10" uuid="2ac375c2-7aac-4ad2-a089-5e2dfebf078b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="143" y="94" width="43" height="14" uuid="62f001a2-e3e8-4a1e-a2d4-8f5bdcf631ce"/>
+				<text><![CDATA[Periodo:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="20" y="0" width="300" height="20" uuid="dce59d0e-88e0-4bfa-beab-1103729ad35f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tag}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="320" y="0" width="100" height="20" uuid="4657ec32-2205-4b93-899d-1bbadf14c41c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
