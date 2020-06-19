@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptReporteDiario" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c54d56de-cfe1-47e4-aa22-3847124741f4">
-	<property name="ireport.zoom" value="2.4200000000000146"/>
+	<property name="ireport.zoom" value="1.2418426461183176"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="520"/>
+	<property name="ireport.y" value="573"/>
 	<parameter name="ruta" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -439,14 +439,14 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{resultado_periodo_calc_acum}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{resultado_periodo_calc_mes}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
 				<reportElement x="475" y="509" width="97" height="20" forecolor="#003399" uuid="bbdc0779-2ea6-4b1a-841a-6ffd4ddcb879"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{resultado_periodo_calc_mes}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{resultado_periodo_calc_acum}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="508" width="569" height="1" uuid="611c2d21-da8d-4aba-8483-8a06a7933a90"/>

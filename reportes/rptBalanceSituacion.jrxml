@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptReporteDiario" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c54d56de-cfe1-47e4-aa22-3847124741f4">
-	<property name="ireport.zoom" value="2.6620000000000195"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="122"/>
+	<property name="ireport.zoom" value="1.5026296018031664"/>
+	<property name="ireport.x" value="29"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="ruta" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -19,32 +19,45 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT
-       nivel,
-       nivel_desc,
-       grupo,
-       grupo_desc,
-       orden,
-       tag,
-       sum(monto) as monto
-FROM conta.estado_balance_situacion
-WHERE intervalo between $P{p_mes_inicio} and $P{p_mes_final}
-GROUP BY
-       nivel,
-       nivel_desc,
-       grupo,
-       grupo_desc,
-       orden,
-       tag
-ORDER BY orden]]>
+		<![CDATA[select   a.intervalo,
+		 b.idcuentamayor,
+         b.idsubcuentamayor,
+		 b.idcuentamenor,
+		 concat(b.idcuentamayor,'-',b.idsubcuentamayor) cuentaKey,
+		 b.subcuentamayor,
+		 b.cuentamenor,
+		 sum(a.balance_final)
+from conta.balances a
+inner join conta.cuentacompuesta b on a.idcuentacompuesta  = b.idcuentacompuesta
+where  (a.intervalo between  $P{p_mes_inicio} and $P{p_mes_final})  and
+concat(b.idcuentamayor,'-',b.idsubcuentamayor) in ('100-000','100-001','200-000','200-001','300-000')
+group by
+		 a.intervalo,
+		 b.idcuentamayor,
+         b.idsubcuentamayor,
+		 b.idcuentamenor,
+		 concat(b.idcuentamayor,'-',b.idsubcuentamayor) ,
+		 b.subcuentamayor,
+		 b.cuentamenor
+
+order by
+a.intervalo,
+		 b.idcuentamayor,
+         b.idsubcuentamayor,
+		 b.idcuentamenor,
+		 concat(b.idcuentamayor,'-',b.idsubcuentamayor),
+		 b.subcuentamayor,
+		 b.cuentamenor
+		       ]]>
 	</queryString>
-	<field name="nivel" class="java.lang.Integer"/>
-	<field name="nivel_desc" class="java.lang.String"/>
-	<field name="grupo" class="java.lang.Integer"/>
-	<field name="grupo_desc" class="java.lang.String"/>
-	<field name="orden" class="java.lang.Integer"/>
-	<field name="tag" class="java.lang.String"/>
-	<field name="monto" class="java.lang.Double"/>
+	<field name="intervalo" class="java.lang.Integer"/>
+	<field name="idcuentamayor" class="java.lang.String"/>
+	<field name="idsubcuentamayor" class="java.lang.String"/>
+	<field name="idcuentamenor" class="java.lang.String"/>
+	<field name="cuentakey" class="java.lang.String"/>
+	<field name="subcuentamayor" class="java.lang.String"/>
+	<field name="cuentamenor" class="java.lang.String"/>
+	<field name="sum" class="java.lang.Double"/>
 	<variable name="monto_1" class="java.lang.Double" resetType="Group" resetGroup="grupo" calculation="Sum">
 		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
 	</variable>
@@ -54,70 +67,6 @@ ORDER BY orden]]>
 	<variable name="monto_3" class="java.lang.Double" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{monto}]]></variableExpression>
 	</variable>
-	<group name="nivel">
-		<groupExpression><![CDATA[$F{nivel}]]></groupExpression>
-		<groupHeader>
-			<band height="24">
-				<textField>
-					<reportElement x="3" y="5" width="217" height="18" uuid="b75571bc-e1af-4b4f-a1e9-c986dade317a"/>
-					<textElement verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{nivel_desc}]]></textFieldExpression>
-				</textField>
-				<line>
-					<reportElement x="3" y="23" width="569" height="1" uuid="77b54440-ca92-4e60-a3a7-885f8fd0af11"/>
-				</line>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="32">
-				<line>
-					<reportElement x="451" y="31" width="108" height="1" uuid="3f68b3d7-91ed-4ede-abe4-988b1c57ec82"/>
-					<graphicElement>
-						<pen lineStyle="Double"/>
-					</graphicElement>
-				</line>
-				<line>
-					<reportElement x="451" y="13" width="108" height="1" uuid="5a82320c-baca-4417-811c-92029e2cf33a"/>
-				</line>
-				<textField pattern="#,##0.00;-#,##0.00">
-					<reportElement x="451" y="14" width="100" height="17" uuid="baf92e5a-e518-4f13-8f8f-584cfca4d287"/>
-					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[$V{monto_2}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupFooter>
-	</group>
-	<group name="grupo">
-		<groupExpression><![CDATA[$F{grupo}]]></groupExpression>
-		<groupHeader>
-			<band height="17">
-				<textField>
-					<reportElement x="9" y="1" width="311" height="16" uuid="3b9df953-1244-4f0a-a80f-e8e1953d133a"/>
-					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{grupo_desc}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="22">
-				<line>
-					<reportElement x="320" y="0" width="108" height="1" uuid="1091fb80-3839-4251-ab2f-f4487b101813"/>
-				</line>
-				<textField pattern="#,##0.00;-#,##0.00">
-					<reportElement x="451" y="1" width="100" height="20" uuid="72354de3-4790-4f67-8a20-ec3bafa47160"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$V{monto_1}]]></textFieldExpression>
-				</textField>
-				<line>
-					<reportElement x="451" y="21" width="108" height="1" uuid="f5d573ad-781a-4856-ad51-8be8a9d89128"/>
-				</line>
-			</band>
-		</groupFooter>
-	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -228,17 +177,6 @@ ORDER BY orden]]>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
-			<textField>
-				<reportElement x="20" y="0" width="300" height="20" uuid="dce59d0e-88e0-4bfa-beab-1103729ad35f"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{tag}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="320" y="0" width="100" height="20" uuid="4657ec32-2205-4b93-899d-1bbadf14c41c"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="20" splitType="Stretch"/>
 	</detail>
 </jasperReport>
