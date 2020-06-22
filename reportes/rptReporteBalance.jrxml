@@ -426,13 +426,6 @@ ORDER BY a.periodo,b.idcuentamayor,b.idsubcuentamayor, b.idcuentamenor, b.idsubc
 				<textFieldExpression><![CDATA[$V{creditos_3}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement stretchType="RelativeToBandHeight" x="504" y="0" width="64" height="20" uuid="837b2a8c-6eeb-4e21-a076-f02963f99fec"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{balance_final_3}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
 				<reportElement stretchType="RelativeToBandHeight" x="366" y="0" width="67" height="20" uuid="f02f8429-d1d1-4fdc-801a-5ecece4ba4f8"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
