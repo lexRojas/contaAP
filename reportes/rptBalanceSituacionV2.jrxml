@@ -18,6 +18,9 @@
 	<parameter name="periodo_final" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nEmpresa" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select   a.intervalo,
 		 b.idcuentamayor,
@@ -30,7 +33,8 @@
 		 sum(a.balance_final)
 from conta.balances a
 inner join conta.cuentacompuesta b on a.idcuentacompuesta  = b.idcuentacompuesta
-where  a.intervalo between $P{periodo_inicio} and $P{periodo_final} and
+where   a.empresa = $P{nEmpresa} and
+        a.intervalo between $P{periodo_inicio} and $P{periodo_final} and
 concat(b.idcuentamayor,'-',b.idsubcuentamayor) in ('100-000','100-001','200-000','200-001','300-000')
 group by
 		 a.intervalo,

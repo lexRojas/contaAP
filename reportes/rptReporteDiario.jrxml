@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptReporteDiario" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c54d56de-cfe1-47e4-aa22-3847124741f4">
 	<property name="ireport.zoom" value="2.6620000000000013"/>
 	<property name="ireport.x" value="519"/>
-	<property name="ireport.y" value="404"/>
+	<property name="ireport.y" value="368"/>
 	<parameter name="ruta" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -15,8 +15,11 @@
 	<parameter name="periodo" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nEmpresa" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select * from conta.diariomovimientos where sigla= $P{periodo}
+		<![CDATA[select * from conta.diariomovimientos where sigla= $P{periodo} and empresa = $P{nEmpresa}
 order by idmovimientocontable, debe desc,  haber asc;]]>
 	</queryString>
 	<field name="idcuentacompuesta" class="java.lang.String"/>
@@ -32,6 +35,7 @@ order by idmovimientocontable, debe desc,  haber asc;]]>
 	<field name="cuentadiario" class="java.lang.String"/>
 	<field name="tipoasiento" class="java.lang.String"/>
 	<field name="row_id" class="java.lang.Long"/>
+	<field name="empresa" class="java.lang.Long"/>
 	<field name="idmovimientocontable" class="java.lang.Long"/>
 	<field name="descripcion" class="java.lang.String"/>
 	<field name="fecha" class="java.sql.Date"/>

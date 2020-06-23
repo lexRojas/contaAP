@@ -15,10 +15,14 @@
 	<parameter name="periodo" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nEmpresa" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT b.*,a.* FROM conta.balances a
 inner join conta.cuentacompuesta b on a.idcuentacompuesta =  b.idcuentacompuesta
 where a.periodo = $P{periodo} and
+      a.empresa =  $P{nEmpresa} and
       (a.balance_final  <> 0 or
 	  a.balance_inicial <> 0 or
 	  a.creditos <> 0 or
@@ -43,7 +47,9 @@ ORDER BY a.periodo,b.idcuentamayor,b.idsubcuentamayor, b.idcuentamenor, b.idsubc
 	<field name="creditos" class="java.lang.Double"/>
 	<field name="debitos" class="java.lang.Double"/>
 	<field name="fecha" class="java.sql.Timestamp"/>
+	<field name="intervalo" class="java.lang.Integer"/>
 	<field name="usuario" class="java.lang.String"/>
+	<field name="empresa" class="java.lang.Long"/>
 	<variable name="balance_inicial_1" class="java.lang.Double" resetType="Group" resetGroup="cuenta_mayor" calculation="Sum">
 		<variableExpression><![CDATA[$F{balance_inicial}]]></variableExpression>
 	</variable>

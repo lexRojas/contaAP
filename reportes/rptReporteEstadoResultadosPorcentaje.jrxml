@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptReporteEstadoResultadosPorcentaje" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c54d56de-cfe1-47e4-aa22-3847124741f4">
 	<property name="ireport.zoom" value="1.2418426461183176"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="697"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="ruta" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -24,11 +24,15 @@
 	<parameter name="p_mes_final" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nEmpresa" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select * from conta.get_estado_resultados_by_periodo_crosstab($P{p_mes_cerrado},$P{p_mes_inicio},$P{p_mes_final});]]>
+		<![CDATA[select * from conta.get_estado_resultados_by_periodo_crosstab($P{p_mes_cerrado},$P{p_mes_inicio},$P{p_mes_final},$P{nEmpresa});]]>
 	</queryString>
 	<field name="row_id" class="java.lang.Integer"/>
 	<field name="tag" class="java.lang.String"/>
+	<field name="empresa" class="java.math.BigDecimal"/>
 	<field name="gastos_operacion_mes" class="java.math.BigDecimal"/>
 	<field name="gastos_administrativos_mes" class="java.math.BigDecimal"/>
 	<field name="ingresos_servicios_mes" class="java.math.BigDecimal"/>
