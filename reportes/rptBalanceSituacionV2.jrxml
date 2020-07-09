@@ -36,7 +36,7 @@ from conta.balances a
 inner join conta.cuentacompuesta b on a.idcuentacompuesta  = b.idcuentacompuesta
 where   a.empresa = $P{nEmpresa} and
         a.intervalo between $P{periodo_inicio} and $P{periodo_final} and
-concat(b.idcuentamayor,'-',b.idsubcuentamayor) in ('100-000','100-001','200-000','200-001','300-000')
+concat(b.idcuentamayor,'-',b.idsubcuentamayor) in ('100-000','100-001','200-000','200-001','300-000','300-001')
 group by
 
 		 b.idcuentamayor,
