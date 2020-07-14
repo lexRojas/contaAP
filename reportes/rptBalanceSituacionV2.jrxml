@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptBalanceSituacionV2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5ac19e05-6557-4630-b8d3-5de6507c3dc2">
-	<property name="ireport.zoom" value="2.1435888100000042"/>
+	<property name="ireport.zoom" value="1.3310000000000026"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="419"/>
+	<property name="ireport.y" value="101"/>
 	<parameter name="empresa" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -27,7 +27,7 @@
          b.idsubcuentamayor,
 		 b.idcuentamenor,
 	concat(b.idcuentamayor,'-',b.idsubcuentamayor) cuentaKey,
-    case when b.idcuentamayor::int =  100 then 'ACTIVOS' else 'PASIVOS + PATRIMONIO' END grupo,
+    case when b.idcuentamayor::int =  100 then 'ACTIVOS' else 'PASIVOS' END grupo,
 	 b.cuentamayor,
 	 b.subcuentamayor,
 	 b.cuentamenor,
@@ -46,7 +46,8 @@ group by
  b.cuentamayor,
 b.subcuentamayor,
 		 b.cuentamenor
-
+having
+sum(a.balance_final)<>0
 order by
 		 b.idcuentamayor,
          b.idsubcuentamayor,
@@ -142,7 +143,7 @@ order by
 					<textFieldExpression><![CDATA[$V{sum_2}]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement x="470" y="4" width="100" height="1" uuid="e2c88640-b2f3-4808-9733-655e6b788b44"/>
+					<reportElement x="316" y="4" width="100" height="1" uuid="e2c88640-b2f3-4808-9733-655e6b788b44"/>
 					<graphicElement>
 						<pen lineStyle="Dashed"/>
 					</graphicElement>
@@ -311,7 +312,7 @@ order by
 				<textFieldExpression><![CDATA[$F{cuentamenor}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="472" y="0" width="100" height="15" uuid="12de3267-b5a6-4b18-bf84-22131a07c58e"/>
+				<reportElement x="316" y="0" width="100" height="15" uuid="12de3267-b5a6-4b18-bf84-22131a07c58e"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{sum}]]></textFieldExpression>
 			</textField>
