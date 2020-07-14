@@ -23,28 +23,37 @@
 	</parameter>
 	<queryString>
 		<![CDATA[select
-	order_print,
-	empresa,
-	tag,
-	sum(monto_debe) debe,
-	sum(monto_haber) haber
-  from conta.balance_comprobacion
-  where empresa = $P{nEmpresa} and intervalo between $P{periodo_inicio} and $P{periodo_final}
-  group by
-  	order_print,
-	empresa,
-	tag
-  order by order_print]]>
+	tabla.cuenta,
+	tabla.cuentamenor,
+	tabla.tipoasiento,
+	case when tabla.tipoasiento= 'DEBE' then sum(monto) else  null end as debe,
+	case when tabla.tipoasiento= 'HABER' then sum(monto) else  null end as haber
+from(
+	select
+		concat(a.idcuentamayor,'-',a.idsubcuentamayor,'-',a.idcuentamenor,'-','000-000') as cuenta,
+	    a.cuentamenor,
+		a.tipoasiento,
+		case when a.tipoasiento = tipoasiento_registrado then (debe+haber) else (debe+haber)*-1 end as monto
+	from conta.diariomovimientos a
+	where a.idcuentamayor in ('100','200','300') and empresa = $P{nEmpresa} and (substring(sigla,1,4)::integer * 100 + (substring(sigla,6,2)::integer)) between $P{periodo_inicio} and $P{periodo_final}
+) as tabla
+GROUP BY
+	tabla.cuenta,
+	tabla.cuentamenor,
+	tabla.tipoasiento
+ORDER BY
+	tabla.tipoasiento,
+	tabla.cuenta]]>
 	</queryString>
-	<field name="order_print" class="java.lang.Integer"/>
-	<field name="empresa" class="java.lang.Long"/>
-	<field name="tag" class="java.lang.String"/>
+	<field name="cuenta" class="java.lang.String"/>
+	<field name="cuentamenor" class="java.lang.String"/>
+	<field name="tipoasiento" class="java.lang.String"/>
 	<field name="debe" class="java.lang.Double"/>
 	<field name="haber" class="java.lang.Double"/>
-	<variable name="debe_1" class="java.lang.Double" resetType="Page" calculation="Sum">
+	<variable name="debe_1" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{debe}]]></variableExpression>
 	</variable>
-	<variable name="haber_1" class="java.lang.Double" resetType="Page" calculation="Sum">
+	<variable name="haber_1" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{haber}]]></variableExpression>
 	</variable>
 	<background>
@@ -78,7 +87,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="18" isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[BALANCE DE COMPROBACION]]></text>
+				<text><![CDATA[BALANCE DE COMPROBACION ACUMULADA]]></text>
 			</staticText>
 			<line>
 				<reportElement x="496" y="13" width="78" height="1" uuid="600bd5dc-f5ab-44da-a5ba-d75eddafe35c"/>
@@ -180,7 +189,7 @@
 				<text><![CDATA[DESCRIPCION]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="316" y="0" width="100" height="20" uuid="d8e5b4ff-8982-4c14-a27f-ec90d2e41524"/>
+				<reportElement x="316" y="0" width="106" height="20" uuid="d8e5b4ff-8982-4c14-a27f-ec90d2e41524"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[DEBE]]></text>
 			</staticText>
@@ -189,57 +198,63 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[HABER]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="570" height="1" uuid="88254b0d-1858-43f5-b865-36bb2cf70047"/>
+			</line>
+			<line>
+				<reportElement x="0" y="19" width="570" height="1" uuid="106575a5-8edf-43fe-85fe-85a2fd24b419"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="287" height="20" uuid="6b36d035-625c-4a69-a769-b0bd4117cc56"/>
+				<reportElement x="0" y="0" width="63" height="20" uuid="3903ffc1-7ce4-4856-b79c-75f5655d04c8"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{tag}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cuenta}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="316" y="0" width="100" height="20" uuid="c04dde57-9d39-4039-a16a-2924b3ad5a40">
-					<printWhenExpression><![CDATA[$F{debe}.longValue()!=0]]></printWhenExpression>
-				</reportElement>
+			<textField>
+				<reportElement x="63" y="0" width="237" height="20" uuid="150fd0fa-8402-4ca8-8d1f-581443f85d7f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cuentamenor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="322" y="0" width="100" height="20" uuid="7720b70a-09e3-4288-bc22-ac5421465fa3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{debe}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="441" y="0" width="100" height="20" uuid="c130c3a7-b213-497e-926a-dc565b4c9d19">
-					<printWhenExpression><![CDATA[$F{haber}.longValue()!= 0]]></printWhenExpression>
-				</reportElement>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="441" y="0" width="100" height="20" uuid="03a4ec22-8384-4f34-8d4b-ae7e1f5856a7"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{haber}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="25" splitType="Stretch">
-			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="441" y="5" width="100" height="20" forecolor="#000099" uuid="3c7cac8c-111f-4994-81a2-8707e711c420"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{haber_1}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="322" y="5" width="100" height="20" forecolor="#000099" uuid="1d26e88b-6534-4f75-b345-006b3f6c15a4"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{debe_1}]]></textFieldExpression>
-			</textField>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="20">
 			<line>
-				<reportElement x="0" y="5" width="570" height="1" uuid="2008d802-3a3a-450e-b456-c2e683b258cf"/>
+				<reportElement x="0" y="0" width="570" height="1" uuid="2008d802-3a3a-450e-b456-c2e683b258cf"/>
 			</line>
 			<staticText>
-				<reportElement x="0" y="5" width="124" height="20" forecolor="#0000CC" uuid="1086c177-720b-4068-b8fe-9ca9e7dea63b"/>
+				<reportElement x="0" y="0" width="124" height="20" forecolor="#0000CC" uuid="1086c177-720b-4068-b8fe-9ca9e7dea63b"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[SUMAS IGUALES ---->>>]]></text>
 			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="322" y="0" width="100" height="20" uuid="bb413df6-2427-4d01-936a-8eaafb49e946"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{debe_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="441" y="0" width="100" height="20" uuid="8f274e6f-eded-4086-9cbe-27d43391e698"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{haber_1}]]></textFieldExpression>
+			</textField>
 		</band>
-	</pageFooter>
+	</summary>
 </jasperReport>
