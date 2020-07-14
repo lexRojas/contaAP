@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptBalanceSituacionV2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5ac19e05-6557-4630-b8d3-5de6507c3dc2">
 	<property name="ireport.zoom" value="1.3310000000000026"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="101"/>
+	<property name="ireport.y" value="93"/>
 	<parameter name="empresa" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -155,7 +155,7 @@ order by
 					</graphicElement>
 				</line>
 				<textField>
-					<reportElement x="47" y="4" width="346" height="20" uuid="c8c62f85-34ea-425c-8218-cd55de078612"/>
+					<reportElement x="47" y="4" width="184" height="20" uuid="c8c62f85-34ea-425c-8218-cd55de078612"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="true"/>
 					</textElement>
