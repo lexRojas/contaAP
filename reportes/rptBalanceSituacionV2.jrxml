@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptBalanceSituacionV2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5ac19e05-6557-4630-b8d3-5de6507c3dc2">
 	<property name="ireport.zoom" value="1.3310000000000026"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="93"/>
+	<property name="ireport.y" value="101"/>
 	<parameter name="empresa" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -35,7 +35,7 @@
 from conta.balances a
 inner join conta.cuentacompuesta b on a.idcuentacompuesta  = b.idcuentacompuesta
 where   a.empresa = $P{nEmpresa} and
-        a.intervalo between $P{periodo_inicio} and $P{periodo_final} and
+        a.intervalo between $P{periodo_final} and $P{periodo_final} and
 concat(b.idcuentamayor,'-',b.idsubcuentamayor) in ('100-000','100-001','200-000','200-001','300-000','300-001')
 group by
 
@@ -280,22 +280,12 @@ order by
 				<text><![CDATA[Fecha  :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="192" y="100" width="69" height="20" uuid="fa6a7bba-afaa-4464-a16e-422430f0e9e6"/>
+				<reportElement x="241" y="100" width="43" height="20" uuid="fa6a7bba-afaa-4464-a16e-422430f0e9e6"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Periodo desde:]]></text>
+				<text><![CDATA[Periodo]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="267" y="100" width="49" height="20" uuid="1ead342b-f3ae-4330-8f54-059e146ca6b4"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{periodo_inicio}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="322" y="100" width="27" height="20" uuid="2f10022d-715b-4520-82b2-8bef5d2d225c"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[hasta]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="357" y="100" width="51" height="20" uuid="dec65eb8-57fe-4ee2-8823-79fdaa1ea331"/>
+				<reportElement x="292" y="100" width="51" height="20" uuid="dec65eb8-57fe-4ee2-8823-79fdaa1ea331"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{periodo_final}]]></textFieldExpression>
 			</textField>
