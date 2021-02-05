@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptBalanceSituacionV2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5ac19e05-6557-4630-b8d3-5de6507c3dc2">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="209"/>
+	<property name="ireport.y" value="272"/>
 	<parameter name="empresa" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -27,6 +27,9 @@
          b.idsubcuentamayor,
 		 b.idcuentamenor,
 	concat(b.idcuentamayor,'-',b.idsubcuentamayor) cuentaKey,
+
+ case when b.idcuentamayor::int =  100 then 'ACTIVOS'
+         when b.idcuentamayor::int =  200 or b.idcuentamayor::int =  300 then 'PASIVOS + PATRIMONIO' END encabezado,
     case when b.idcuentamayor::int =  100 then 'ACTIVOS'
          when b.idcuentamayor::int =  200 then 'PASIVOS'
          when b.idcuentamayor::int =  300 then 'PATRIMONIO' END grupo,
@@ -63,6 +66,7 @@ order by
 	<field name="idsubcuentamayor" class="java.lang.String"/>
 	<field name="idcuentamenor" class="java.lang.String"/>
 	<field name="cuentakey" class="java.lang.String"/>
+	<field name="encabezado" class="java.lang.String"/>
 	<field name="grupo" class="java.lang.String"/>
 	<field name="cuentamayor" class="java.lang.String"/>
 	<field name="subcuentamayor" class="java.lang.String"/>
@@ -74,15 +78,56 @@ order by
 	<variable name="sum_2" class="java.lang.Double" resetType="Group" resetGroup="idsubcuentamayor" calculation="Sum">
 		<variableExpression><![CDATA[$F{sum}]]></variableExpression>
 	</variable>
+	<variable name="sum_3" class="java.lang.Double" resetType="Group" resetGroup="encabezado" calculation="Sum">
+		<variableExpression><![CDATA[$F{sum}]]></variableExpression>
+	</variable>
+	<group name="encabezado">
+		<groupExpression><![CDATA[$F{encabezado}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<rectangle>
+					<reportElement mode="Opaque" x="0" y="0" width="572" height="20" forecolor="#FFFFFF" backcolor="#99FFFF" uuid="73876152-080b-4f0f-b23a-a99ce7b2f514"/>
+				</rectangle>
+				<textField>
+					<reportElement x="0" y="0" width="255" height="20" uuid="db57f9cd-d579-4a42-b12e-157b3e8a95f0"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{encabezado}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<rectangle>
+					<reportElement x="0" y="0" width="570" height="21" forecolor="#FFFFFF" backcolor="#99FFFF" uuid="652e4dbd-9081-4a40-a5f2-64b1f07cf0d4"/>
+				</rectangle>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="470" y="1" width="100" height="20" uuid="bce87305-4d50-47e1-a77e-b36388630657"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_3}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="2" y="1" width="216" height="20" uuid="bca65181-52a9-4fb2-bafd-a910c7fb3b87"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["TOTAL DE " + $F{encabezado}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
 	<group name="grupo">
 		<groupExpression><![CDATA[$F{grupo}]]></groupExpression>
 		<groupHeader>
 			<band height="20">
 				<rectangle>
-					<reportElement x="0" y="0" width="572" height="20" forecolor="#FFFFFF" backcolor="#C3E9E9" uuid="f4c7f9ee-1a0f-41f3-8ede-11445c426151"/>
+					<reportElement x="0" y="0" width="572" height="20" forecolor="#FFFFFF" backcolor="#FFFFCC" uuid="f4c7f9ee-1a0f-41f3-8ede-11445c426151"/>
 				</rectangle>
 				<textField>
-					<reportElement x="5" y="0" width="226" height="20" uuid="9242d833-cb4b-4aad-97a0-ae7a2d336088"/>
+					<reportElement x="25" y="0" width="206" height="20" uuid="9242d833-cb4b-4aad-97a0-ae7a2d336088"/>
 					<textElement verticalAlignment="Middle">
 						<font size="10" isBold="true"/>
 					</textElement>
@@ -93,7 +138,7 @@ order by
 		<groupFooter>
 			<band height="29">
 				<rectangle>
-					<reportElement x="2" y="3" width="572" height="21" forecolor="#FFFFFF" backcolor="#C3E9E9" uuid="05a753dc-2f23-4a07-9bf8-ab46aa26439f"/>
+					<reportElement x="2" y="3" width="572" height="21" forecolor="#FFFFFF" backcolor="#FFFFCC" uuid="05a753dc-2f23-4a07-9bf8-ab46aa26439f"/>
 				</rectangle>
 				<textField pattern="#,##0.00;-#,##0.00">
 					<reportElement x="472" y="5" width="98" height="17" uuid="51026113-8369-41f1-9cf2-9e4d45858083"/>
@@ -115,7 +160,7 @@ order by
 					</graphicElement>
 				</line>
 				<textField>
-					<reportElement x="15" y="5" width="226" height="20" uuid="ea2b4c4a-9061-4215-a71c-e872d196d5b7"/>
+					<reportElement x="25" y="5" width="216" height="20" uuid="ea2b4c4a-9061-4215-a71c-e872d196d5b7"/>
 					<textElement verticalAlignment="Middle">
 						<font size="10" isBold="true"/>
 					</textElement>
