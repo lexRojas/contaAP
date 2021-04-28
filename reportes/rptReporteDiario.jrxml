@@ -20,7 +20,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[select * from conta.diariomovimientos where sigla= $P{periodo} and empresa = $P{nEmpresa}
-order by idmovimientocontable, idasientocontable, abs(debe) desc,  haber asc;]]>
+order by row_id,idmovimientocontable, idasientocontable, abs(debe) desc,  haber asc;]]>
 	</queryString>
 	<field name="idcuentacompuesta" class="java.lang.String"/>
 	<field name="idcuentamayor" class="java.lang.String"/>

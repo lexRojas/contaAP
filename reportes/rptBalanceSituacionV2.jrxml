@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptBalanceSituacionV2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5ac19e05-6557-4630-b8d3-5de6507c3dc2">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="173"/>
 	<property name="ireport.y" value="272"/>
 	<parameter name="empresa" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -36,7 +36,8 @@
 	 b.cuentamayor,
 	 b.subcuentamayor,
 	 b.cuentamenor,
-	 sum(a.balance_final)
+	 sum(a.balance_final),
+sum(case when  b.idcuentamenor = '007' then  -1*a.balance_final else a.balance_final end) totales
 from conta.balances a
 inner join conta.cuentacompuesta b on a.idcuentacompuesta  = b.idcuentacompuesta
 where   a.empresa = $P{nEmpresa} and
@@ -72,6 +73,7 @@ order by
 	<field name="subcuentamayor" class="java.lang.String"/>
 	<field name="cuentamenor" class="java.lang.String"/>
 	<field name="sum" class="java.lang.Double"/>
+	<field name="totales" class="java.lang.Double"/>
 	<variable name="sum_1" class="java.lang.Double" resetType="Group" resetGroup="grupo" calculation="Sum">
 		<variableExpression><![CDATA[$F{sum}]]></variableExpression>
 	</variable>
@@ -80,6 +82,15 @@ order by
 	</variable>
 	<variable name="sum_3" class="java.lang.Double" resetType="Group" resetGroup="encabezado" calculation="Sum">
 		<variableExpression><![CDATA[$F{sum}]]></variableExpression>
+	</variable>
+	<variable name="totales_1" class="java.lang.Double" resetType="Group" resetGroup="idsubcuentamayor" calculation="Sum">
+		<variableExpression><![CDATA[$F{totales}]]></variableExpression>
+	</variable>
+	<variable name="totales_2" class="java.lang.Double" resetType="Group" resetGroup="grupo" calculation="Sum">
+		<variableExpression><![CDATA[$F{totales}]]></variableExpression>
+	</variable>
+	<variable name="totales_3" class="java.lang.Double" resetType="Group" resetGroup="encabezado" calculation="Sum">
+		<variableExpression><![CDATA[$F{totales}]]></variableExpression>
 	</variable>
 	<group name="encabezado">
 		<groupExpression><![CDATA[$F{encabezado}]]></groupExpression>
@@ -102,19 +113,19 @@ order by
 				<rectangle>
 					<reportElement x="0" y="0" width="570" height="21" forecolor="#FFFFFF" backcolor="#99FFFF" uuid="652e4dbd-9081-4a40-a5f2-64b1f07cf0d4"/>
 				</rectangle>
-				<textField pattern="#,##0.00;-#,##0.00">
-					<reportElement x="470" y="1" width="100" height="20" uuid="bce87305-4d50-47e1-a77e-b36388630657"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{sum_3}]]></textFieldExpression>
-				</textField>
 				<textField>
 					<reportElement x="2" y="1" width="216" height="20" uuid="bca65181-52a9-4fb2-bafd-a910c7fb3b87"/>
 					<textElement verticalAlignment="Middle">
 						<font size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA["TOTAL DE " + $F{encabezado}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="470" y="1" width="100" height="20" uuid="0af22436-fe1e-4e83-ac54-ce5cba98af63"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totales_3}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -140,13 +151,6 @@ order by
 				<rectangle>
 					<reportElement x="2" y="3" width="572" height="21" forecolor="#FFFFFF" backcolor="#FFFFCC" uuid="05a753dc-2f23-4a07-9bf8-ab46aa26439f"/>
 				</rectangle>
-				<textField pattern="#,##0.00;-#,##0.00">
-					<reportElement x="472" y="5" width="98" height="17" uuid="51026113-8369-41f1-9cf2-9e4d45858083"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{sum_1}]]></textFieldExpression>
-				</textField>
 				<line>
 					<reportElement x="470" y="4" width="100" height="1" uuid="8ea1b825-bd79-4814-a86c-ccd151106234"/>
 					<graphicElement>
@@ -166,6 +170,13 @@ order by
 					</textElement>
 					<textFieldExpression><![CDATA["TOTAL DE " + $F{grupo}]]></textFieldExpression>
 				</textField>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="472" y="4" width="100" height="20" uuid="c8b83ed5-4849-47d4-9ec4-b018857cc971"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totales_2}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
@@ -184,11 +195,6 @@ order by
 		</groupHeader>
 		<groupFooter>
 			<band height="25">
-				<textField pattern="#,##0.00;-#,##0.00">
-					<reportElement x="472" y="4" width="98" height="16" uuid="fe6f2bb4-66af-4d11-a8a0-b04f42bb5bb9"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$V{sum_2}]]></textFieldExpression>
-				</textField>
 				<line>
 					<reportElement x="316" y="4" width="100" height="1" uuid="e2c88640-b2f3-4808-9733-655e6b788b44"/>
 					<graphicElement>
@@ -207,6 +213,13 @@ order by
 						<font isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA["TOTAL DE " + $F{subcuentamayor}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00;-#,##0.00">
+					<reportElement x="474" y="1" width="100" height="20" uuid="1520c5da-1de5-4f74-9e62-95c14c7a5b54"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totales_1}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
